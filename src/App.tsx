@@ -1,24 +1,38 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import Menu from './pages/Menu';
+import GameBoard from './pages/GameBoard';
+import Difficulty from './components/menu/Difficulty';
+import Settings from './components/menu/Settings';
+import {AppProps} from './interfaces/index';
 
-function App() {
+const App:React.FC<AppProps> = ({handler}) => {
+
+   const [mode, setMode] = useState<string>("menu");
+
+   const modeSwitch = (modeValue: string) => {
+      switch(modeValue){
+         case "menu":
+            return <Menu handler={setMode} />
+         case "launch_game":
+            return <GameBoard />
+         case "change_difficulty":
+            return <Difficulty />
+         case "change_settings":
+            return <Settings />
+         default:
+            break
+      }
+   }
+   const renderMenu = () => {
+      return <Menu handler={setMode} />
+   }
+   console.log(mode)
+   
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+       <button onClick={(() => {setMode("menu")})}></button>
+       {modeSwitch(mode)}
+       
     </div>
   );
 }
